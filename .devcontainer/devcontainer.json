@@ -1,0 +1,8 @@
+{
+	"name":"laravel_sample",
+	"dockerComposeFile": [
+		"../docker-compose.yml"
+	],
+	"service": "laravel",
+	"workspaceFolder": "/var/www/laravel_sample"
+}
