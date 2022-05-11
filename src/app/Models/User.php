@@ -52,4 +52,14 @@ class User extends Authenticatable
         'biograph' => '',
         'last_login_at' => '1970-01-01 00:00:00.000000',
     ];
+
+    public function findUserByEmailAndPassword(){
+        $user = $this->where('email', $this->email)->first();
+        if (password_verify($this->password, $user->password)){
+            return $user;
+        }
+        else{
+            return NULL;
+        }
+    }
 }
