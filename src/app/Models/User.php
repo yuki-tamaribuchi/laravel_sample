@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -45,5 +46,10 @@ class User extends Authenticatable
 
     protected $guarded = [
         'last_login_at'
+    ];
+
+    protected $attributes = [
+        'biograph' => '',
+        'last_login_at' => '1970-01-01 00:00:00.000000',
     ];
 }
