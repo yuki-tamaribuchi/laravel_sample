@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Models\User;
-
+use App\Models\Posts;
 
 class AccountsController extends Controller
 {
@@ -76,7 +76,8 @@ class AccountsController extends Controller
 
     public function detail(Request $request){
         $user = User::where('id', $request->id)->first();
-        return view('accounts.detail', ["user" => $user]);
+        $posts = Posts::where('user_id', $request->id)->get();
+        return view('accounts.detail', ["user" => $user, "posts" => $posts]);
     }
 
 
