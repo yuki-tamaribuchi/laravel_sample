@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\PostsController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,3 +29,5 @@ Route::get('/accounts/logout', 'App\Http\Controllers\AccountsController@logout')
 Route::get('/accounts/detail/{id}', 'App\Http\Controllers\AccountsController@detail')->name('account_detail');
 Route::match(array('GET', 'POST'), '/accounts/update/{id}', 'App\Http\Controllers\AccountsController@update')->name('account_update');
 Route::match(array('GET', 'POST'), '/accounts/delete/{id}', 'App\Http\Controllers\AccountsController@delete')->name('account_delete');
+
+Route::resource('posts', PostsController::class);
