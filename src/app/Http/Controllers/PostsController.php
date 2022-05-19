@@ -31,4 +31,14 @@ class PostsController extends Controller
 
         return redirect(route('posts.show', ["post" => $post->id]));
     }
+
+    public function show(Request $request){
+        $post = Posts::getPostById($request->post);
+        
+        if ($post){
+            return view('posts.show', ["post" => $post]);
+        } else {
+            return abort(404);
+        }
+    }
 }
