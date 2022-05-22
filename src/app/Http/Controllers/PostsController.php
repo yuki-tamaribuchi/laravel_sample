@@ -50,4 +50,24 @@ class PostsController extends Controller
             return abort(403);
         }
     }
+
+    public function update(Request $request){
+        $validator = $request->validate([
+            'title'=>'required',
+            'content'=>'required'
+        ]);
+        $post = Posts::getPostById($request->post);
+
+        if (Auth::user()->id == $post->user_id){
+            $title = $request->get('title');
+            $content = $request->get('content');
+            $post->title = $title;
+            $post->content = $content;
+            $post->save();
+
+            return redirect(route('posts.show', ['post'=>$post->id]));
+        } else {
+            return abort(403);
+        }
+    }
 }
