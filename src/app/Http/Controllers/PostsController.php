@@ -41,4 +41,13 @@ class PostsController extends Controller
             return abort(404);
         }
     }
+
+    public function edit(Request $request){
+        $post = Posts::getPostById($request->post);
+        if (Auth::user()->id == $post->user_id){
+            return view('posts.edit', ['post' => $post]);
+        } else {
+            return abort(403);
+        }
+    }
 }
