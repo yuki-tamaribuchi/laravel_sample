@@ -61,11 +61,32 @@ class PostsController extends Controller
         if (Auth::user()->id == $post->user_id){
             $title = $request->get('title');
             $content = $request->get('content');
+            $categories = $request->get('categories');
             $post->title = $title;
             $post->content = $content;
             $post->save();
+            $post->categories()->sync($categories);
 
             return redirect(route('posts.show', ['post'=>$post->id]));
+        } else {
+            return abort(403);
+        }
+    }
+
+    public function destroy_confirm(Request $request){
+        $post = Posts::getPostById($request->post);
+        if (Auth::user()->id == $post->user_id){
+            return view('posts.destroy-confirm', ['post'=>$post]);
+        } else {
+            return abort(403);
+        }
+    }
+
+    public function destroy(Request $request){
+        $post = Posts::getPostById($request->post);
+        if (Auth::user()->id == $post->user_id){
+            Posts::where('id', $post->id)->delete();
+            return view('posts.destroy-completed');
         } else {
             return abort(403);
         }
