@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Http\Models\User;
+use App\Models\User;
+use App\Models\Categories;
 
 class Posts extends Model
 {
@@ -21,8 +22,12 @@ class Posts extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function categories(){
+        return $this->belongsToMany(Categories::class, 'post_category', 'post_id', 'category_id');
+    }
+
     public static function getPostById($id){
-        $post = self::where('id', $id)->first();
+        $post = self::with('user', 'categories')->where('id', $id)->first();
         return $post;
     }
 }
