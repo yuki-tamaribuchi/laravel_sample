@@ -6,11 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\Posts;
+use App\Models\Categories;
 
 class PostsController extends Controller
 {
     public function create(){
-        return view('posts.create');
+        $post = new Posts();
+        $categories = Categories::all();
+        return view('posts.create', ['post' => $post, 'categories' => $categories]);
     }
 
     public function store(Request $request){
