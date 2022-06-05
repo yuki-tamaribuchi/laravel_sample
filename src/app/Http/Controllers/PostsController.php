@@ -24,6 +24,7 @@ class PostsController extends Controller
 
         $title = $request->get('title');
         $content = $request->get('content');
+        $categories = $request->get('categories');
         $user_id = Auth::user()->id;
 
         $post = Posts::create([
@@ -31,6 +32,7 @@ class PostsController extends Controller
             'content' => $content,
             'user_id' => $user_id
         ]);
+        $post->categories()->sync($categories);
 
         return redirect(route('posts.show', ["post" => $post->id]));
     }
@@ -47,8 +49,9 @@ class PostsController extends Controller
 
     public function edit(Request $request){
         $post = Posts::getPostById($request->post);
+        $categories = Categories::all();
         if (Auth::user()->id == $post->user_id){
-            return view('posts.edit', ['post' => $post]);
+            return view('posts.edit', ['post' => $post, 'categories' => $categories]);
         } else {
             return abort(403);
         }
