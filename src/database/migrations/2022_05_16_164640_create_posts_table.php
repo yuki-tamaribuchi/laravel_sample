@@ -29,11 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('posts', function (Blueprint $table){
-            $table->dropColumn('title');
-            $table->dropColumn('content');
-            $table->dropForeign('user_id');
-            $table->dropSoftDeletes();
-        });
+        Schema::dropIfExists('posts');
     }
 };
