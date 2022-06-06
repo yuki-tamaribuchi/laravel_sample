@@ -3,8 +3,17 @@
 @section('content')
 <h2>{{ $post->title }}</h2>
 
+
 {{ $post->content }}
 
+<br>
+<br>
+カテゴリ:
+@forelse ($post->categories as $category)
+<a href="#">{{ $category->name }}</a>&nbsp;
+@empty
+カテゴリは登録されていません。
+@endforelse
 <br>
 <br>
 投稿日時: {{ $post->created_at }} | 更新日時: {{ $post->updated_at }}
