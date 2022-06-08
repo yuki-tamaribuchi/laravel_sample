@@ -38,4 +38,36 @@ class AccountTest extends TestCase
         $user = User::where('email', $this->email)->first();
         $response->assertRedirect(sprintf('/accounts/detail/%d', $user->id));
     }
+
+    public function test_signup_validation_email_regex(){
+        $wrong_email = 'testexample.com';
+        $response = $this->post(
+            '/accounts/signup',
+            [
+                'name' => $this->username,
+                'email' => $wrong_email,
+                'password' => $this->password,
+                'password_confirmation' => $this->password_confirmation
+            ]);
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('email');
+        $this->assertDatabaseMissing('users',[
+            'email' => $wrong_email
+        ]);
+    }
+
+    public function test_signup_validation_no_name(){
+        $response = $this->post(
+            '/accounts/signup',
+            [
+                'email' =>  $this->email,
+                'password' => $this->password,
+                'password_confirmation' => $this->password_confirmation
+            ]);
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('name');
+        $this->assertDatabaseMissing('users',[
+            'email' => $this->email
+        ]);
+    }
 }
