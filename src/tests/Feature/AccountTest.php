@@ -70,4 +70,50 @@ class AccountTest extends TestCase
             'email' => $this->email
         ]);
     }
+
+    public function test_signup_validation_no_password(){
+        $response = $this->post(
+            '/accounts/signup',
+            [
+                'name' => $this->username,
+                'email' => $this->email,
+                'password_confirmation' => $this->password_confirmation
+            ]);
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('password');
+        $this->assertDatabaseMissing('users',[
+            'email' => $this->email
+        ]);
+    }
+
+        public function test_signup_validation_no_password_confirmation(){
+        $response = $this->post(
+            '/accounts/signup',
+            [
+                'name' => $this->username,
+                'email' =>  $this->email,
+                'password' => $this->password
+            ]);
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('password');
+        $this->assertDatabaseMissing('users',[
+            'email' => $this->email
+        ]);
+    }
+
+    public function test_signup_validation_password_confirmation(){
+        $response = $this->post(
+            '/accounts/signup',
+            [
+                'name' => $this->username,
+                'email' => $this->email,
+                'password' => 'password',
+                'password_confirmation' => 'wrongpassword'
+            ]);
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('password');
+        $this->assertDatabaseMissing('users',[
+            'email' => $this->email
+        ]);
+    }
 }
