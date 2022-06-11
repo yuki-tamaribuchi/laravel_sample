@@ -116,4 +116,37 @@ class AccountTest extends TestCase
             'email' => $this->email
         ]);
     }
+
+    public function test_signup_validation_password_length_less_than_five(){
+        $response = $this->post(
+            '/accounts/signup',
+            [
+                'name' => $this->username,
+                'email' => $this->email,
+                'password' => 'pswd',
+                'password_confirmation' => 'pswd'
+            ]);
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('password');
+        $this->assertDatabaseMissing('users',[
+            'email' => $this->email
+        ]);
+    }
+    
+    public function test_login_get(){
+        $response = $this->get('accounts/login');
+        $response->assertStatus(200);
+        $response->assertViewIs('accounts.login');
+    }
+
+    public function test_login_post(){
+        $user = $this->create_user();
+        $response = $this->post(
+            '/accounts/login',
+            [
+                'email' => $user->email,
+                'password' => 'password' 
+            ]);
+        $this->assertAuthenticated();
+    }
 }
