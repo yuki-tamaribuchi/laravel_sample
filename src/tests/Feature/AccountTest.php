@@ -149,4 +149,23 @@ class AccountTest extends TestCase
             ]);
         $this->assertAuthenticated();
     }
+
+    public function test_detail_not_found_status(){
+        $response = $this->get('accounts/detail/1');
+        $response->assertStatus(404);
+    }
+
+    public function test_detail_get(){
+        $user = $this->create_user();
+        $response = $this->get(sprintf('accounts/detail/%d', $user->id));
+        $response->assertStatus(200);
+        $response->assertViewIs('accounts.detail');
+        $response->assertViewHas('user', $user);
+    }
+
+    public function test_not_authed_update_get(){
+        $user = $this->create_user();
+        $response = $this->get(sprintf('accounts/update/%d', $user->id));
+        $response->assertStatus(403);
+    }
 }
