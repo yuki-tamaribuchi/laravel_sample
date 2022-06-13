@@ -168,4 +168,48 @@ class AccountTest extends TestCase
         $response = $this->get(sprintf('accounts/update/%d', $user->id));
         $response->assertStatus(403);
     }
+
+    public function test_authed_update_get(){
+        $user = $this->create_user();
+        $response = $this->actingAs($user)->get(sprintf('accounts/update/%d', $user->id));
+        $response->assertStatus(200);
+        $response->assertViewIs('accounts.update');
+        $response->assertViewHas('user', $user);
+    }
+
+    public function test_authed_update_post(){
+        $user = $this->create_user();
+        $response = $this->actingAs($user)
+            ->post(sprintf('accounts/update/%d', $user->id), [
+                'name' => 'test user',
+                'biograph' => 'test biograph'
+            ]);
+        $this->assertDatabaseHas('users', [
+            'name' => 'test user',
+            'biograph' => 'test biograph'
+        ]);
+        $response->assertRedirect(sprintf('/accounts/detail/%d', $user->id));
+    }
+
+    public function test_not_authed_delete_get_method_status(){
+        $user = $this->create_user();
+        $response = $this->get(sprintf('accounts/delete/%d', $user->id));
+        $response->assertStatus(403);
+    }
+
+    public function test_auth_delete_get(){
+        $user = $this->create_user();
+        $response = $this->actingAs($user)->get(sprintf('accounts/delete/%d', $user->id));
+        $response->assertStatus(200);
+        $response->assertViewIs('accounts.delete');
+        $response->assertViewHas('id', $user->id);
+    }
+
+    public function test_delete_user_post(){
+        $user = $this->create_user();
+        $response = $this->actingAs($user)->post(sprintf('accounts/delete/%d', $user->id));
+        $this->assertDatabaseMissing('users', [
+            'id' => $user->id
+        ]);
+    }
 }
