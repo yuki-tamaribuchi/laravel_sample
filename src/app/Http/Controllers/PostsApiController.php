@@ -18,4 +18,18 @@ class PostsApiController extends Controller
         $posts = json_encode($posts);
         return response()->json(['posts' => $posts]);
     }
+
+    public function show(Request $request){
+        $post = $this->posts_table
+            ->join('post_category','posts.id', '=', 'post_category.post_id')
+            ->join('categories', 'post_category.category_id', '=', 'categories.id')
+            ->join('users', 'posts.user_id', '=', 'users.id')
+            ->where('posts.id', $request->post)
+            ->get();
+        if ($post->isEmpty()){
+            return response()->json(null, Response::HTTP_NOT_FOUND);
+        }
+        $post = json_encode($post);
+        return response()->json(['post'=>$post]);
+    }
 }
