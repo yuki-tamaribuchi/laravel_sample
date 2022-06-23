@@ -76,6 +76,9 @@ class AccountsController extends Controller
 
     public function detail(Request $request){
         $user = User::where('id', $request->id)->first();
+        if ($user==null){
+            return abort(404);
+        }
         $posts = Posts::where('user_id', $request->id)->get();
         return view('accounts.detail', ["user" => $user, "posts" => $posts]);
     }
@@ -83,9 +86,13 @@ class AccountsController extends Controller
 
     public function update(Request $request){
         if ($request->isMethod('GET')){
+            if (!Auth::check()){
+                return abort(403);
+            }
+
             if (Auth::user()->id == $request->id){
                 $user = User::where('id', Auth::user()->id)->first();
-                return view('accounts.update');
+                return view('accounts.update', ['user'=>$user]);
             }
             else{
                 return redirect(route('account_detail', ['id'=>Auth::user()->id]));
@@ -99,8 +106,7 @@ class AccountsController extends Controller
             $name = $request->get('name');
             if ($request->get('biograph')){
                 $biograph = $request->get('biograph');
-            }
-            else{
+            } else {
                 $biograph = "";
             }
 
@@ -116,6 +122,10 @@ class AccountsController extends Controller
 
 
     public function delete(Request $request){
+        if (!Auth::check()){
+            return abort(403);
+        }
+        
         if (Auth::user()->id == $request->id){
             if ($request->isMethod('GET')){
                 return view('accounts.delete', ['id'=>$request->id]);
