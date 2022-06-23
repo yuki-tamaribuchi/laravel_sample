@@ -10,6 +10,10 @@ use App\Models\Categories;
 
 class PostsController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth', ['only'=>['create', 'store', 'destroy-confirm', 'destroy']]);
+    }
+
     public function create(){
         $post = new Posts();
         $categories = Categories::all();
