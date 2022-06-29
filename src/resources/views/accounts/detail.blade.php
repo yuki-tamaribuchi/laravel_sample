@@ -22,9 +22,10 @@
 
 <br>
 <br>
-
-@if (Auth::user()->id == $user->id)
-<a href="{{ route('account_update', ['id' => $user->id]) }}">プロフィール変更</a>
-<a href="{{ route('account_delete', ['id' => $user->id]) }}">退会</a>
+@if (Auth::check())
+	@if (Auth::user()->id == $user->id)
+	<a href="{{ route('account_update', ['id' => $user->id]) }}">プロフィール変更</a>
+	<a href="{{ route('account_delete', ['id' => $user->id]) }}">退会</a>
+	@endif
 @endif
 @endsection

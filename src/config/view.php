@@ -33,4 +33,5 @@ return [
         realpath(storage_path('framework/views'))
     ),
 
+    'accounts_path' => resource_path('views/accounts'),
 ];

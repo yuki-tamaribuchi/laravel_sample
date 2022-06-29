@@ -6,8 +6,6 @@ services:
       context: .
       dockerfile: ./.docker/Dockerfile
     tty: true
-    ports:
-      - 8000:8000
     volumes:
       - ./src:/var/www/laravel_sample
       - ./apache/default.conf:/etc/apache2/sites-enabled/000-default.conf

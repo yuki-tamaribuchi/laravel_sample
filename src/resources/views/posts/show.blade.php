@@ -29,7 +29,7 @@
 <h3>投稿者</h3>
 <h4><a href="{{ route('account_detail', ['id'=>$post->user->id]) }}">{{$post->user->name}}</a></h4>
 @if ($post->user->biograph)
-	{{$psot->user->biograph}}
+	{{$post->user->biograph}}
 @else
 	自己紹介はありません。
 @endif

@@ -30,4 +30,6 @@ Route::get('/accounts/detail/{id}', 'App\Http\Controllers\AccountsController@det
 Route::match(array('GET', 'POST'), '/accounts/update/{id}', 'App\Http\Controllers\AccountsController@update')->name('account_update');
 Route::match(array('GET', 'POST'), '/accounts/delete/{id}', 'App\Http\Controllers\AccountsController@delete')->name('account_delete');
 
+
 Route::resource('posts', PostsController::class);
+Route::get('/posts/destroy-confirm/{post}', 'App\Http\Controllers\PostsController@destroy_confirm')->name('posts.destroy-confirm');

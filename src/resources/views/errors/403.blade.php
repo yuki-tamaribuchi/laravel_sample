@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-<a href="{{ route('hello') }}">hello</a>
+<h2>403 Forbidden</h2>
 @endsection

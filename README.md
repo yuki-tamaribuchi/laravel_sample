@@ -1,3 +1,22 @@
+# Laravelのサンプルアプリ
+
+## 使用した機能
+
+- ルーティング(get,post等の指定、matchにより異なるメソッドをコントローラの同じ関数にルーティング, resourceによる一括ルーティング, APIのルーティング)
+- パスパラメータ、クエリパラメータの取得
+- コントローラー(view関数, redirect関数, route関数, abort関数, フォームデータのバリデーション機能, JSONレスポンスの作成)
+- JSONデータのデコード
+- Eloquentを使用したDB操作(SELECT, INSERT, UPDATE, DELETE, モデル作成, マイグレーション)
+- belongsToやbelongsToManyによる外部キー指定
+- EagerロードによるN+1問題解消
+- attributesを使用し、デフォルト値を指定
+- Bladeテンプレート(変数表示, フォーム, extends, section, route関数によるルーティング)
+- Hash関数によるパスワードハッシュ、password_verify関数による照合
+- Authによる認証
+- Seederによるサンプルデータ作成
+
+<br><br>
+
 # 参考
 
 ## docker開発環境
