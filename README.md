@@ -10,6 +10,10 @@
 - belongsToやbelongsToManyによる外部キー指定
 - EagerロードによるN+1問題解消
 - attributesを使用し、デフォルト値を指定
+- DBファサードを用いたCRUD操作
+- データベーススキーマのテスト
+- モデル操作のテスト
+- コントローラのテスト
 - Bladeテンプレート(変数表示, フォーム, extends, section, route関数によるルーティング)
 - Hash関数によるパスワードハッシュ、password_verify関数による照合
 - Authによる認証
